@@ -1,30 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = 'http://localhost:8080/alunos';
-  const tbody = document.getElementById('aluno-tbody');
-  const form = document.getElementById('aluno-form');
-  const alunoId = document.getElementById('aluno-id');
+  const apiUrl = 'http://localhost:8080/professor';
+  const tbody = document.getElementById('professor-tbody');
+  const form = document.getElementById('professor-form');
+  const professorId = document.getElementById('professor-id');
   const nomeInput = document.getElementById('nome');
   const emailInput = document.getElementById('email');
   const telefoneInput = document.getElementById('telefone');
 
-  // Função para carregar alunos
-  function carregarAlunos() {
+  // Função para carregar professores
+  function carregarProfessores() {
     fetch(apiUrl)
       .then(res => res.json())
       .then(data => {
         tbody.innerHTML = '';
-        data.forEach(aluno => {
+        data.forEach(professor => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td>${aluno.nome}</td>
-            <td>${aluno.email}</td>
-            <td>${aluno.telefone}</td>
+            <td>${professor.nome}</td>
+            <td>${professor.email}</td>
+            <td>${professor.telefone}</td>
             <td>
               <button class="btn btn-warning btn-sm me-2"
-                onclick="editarAluno(${aluno.id}, '${aluno.nome}', '${aluno.email}', '${aluno.telefone}')">
+                onclick="editarProfessor(${professor.id}, '${professor.nome}', '${professor.email}', '${professor.telefone}')">
                 Editar
               </button>
-              <button class="btn btn-danger btn-sm" onclick="excluirAluno(${aluno.id})">
+              <button class="btn btn-danger btn-sm" onclick="excluirProfessor(${professor.id})">
                 Excluir
               </button>
             </td>
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       })
       .catch(err => {
-        console.error('Erro ao buscar alunos:', err);
-        alert('Erro ao carregar alunos.');
+        console.error('Erro ao buscar professores:', err);
+        alert('Erro ao carregar professores.');
       });
   }
 
@@ -42,58 +42,58 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const aluno = {
+    const professor = {
       nome: nomeInput.value,
       email: emailInput.value,
       telefone: telefoneInput.value
     };
 
-    if (alunoId.value) {
+    if (professorId.value) {
       // Atualizar
-      fetch(`${apiUrl}/${alunoId.value}`, {
+      fetch(`${apiUrl}/${professorId.value}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
+        body: JSON.stringify(professor)
       })
       .then(() => {
-        alert('Aluno atualizado com sucesso!');
+        alert('Professor atualizado com sucesso!');
         form.reset();
         alunoId.value = '';
-        carregarAlunos();
+        carregarProfessores();
       });
     } else {
       // Criar
       fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
+        body: JSON.stringify(professor)
       })
       .then(() => {
-        alert('Aluno cadastrado com sucesso!');
+        alert('Professor cadastrado com sucesso!');
         form.reset();
-        carregarAlunos();
+        carregarProfessores();
       });
     }
   });
 
   // Expor funções globais
-  window.editarAluno = (id, nome, email, telefone) => {
-    alunoId.value = id;
+  window.editarProfessor = (id, nome, email, telefone) => {
+    professorId.value = id;
     nomeInput.value = nome;
     emailInput.value = email;
     telefoneInput.value = telefone;
   };
 
-  window.excluirAluno = (id) => {
-    if (confirm('Deseja excluir este aluno?')) {
+  window.excluirProfessor = (id) => {
+    if (confirm('Deseja excluir este professor?')) {
       fetch(`${apiUrl}/${id}`, { method: 'DELETE' })
         .then(() => {
-          alert('Aluno excluído!');
-          carregarAlunos();
+          alert('Professor excluído!');
+          carregarProfessores();
         });
     }
   };
 
   // Inicializar
-  carregarAlunos();
+  carregarProfessores();
 });

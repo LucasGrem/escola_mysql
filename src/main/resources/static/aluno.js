@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = 'http://localhost:8080/alunos';
+  const apiUrl = 'http://localhost:8080/aluno';
   const tbody = document.getElementById('aluno-tbody');
   const form = document.getElementById('aluno-form');
   const alunoId = document.getElementById('aluno-id');
