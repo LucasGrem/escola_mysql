@@ -2,6 +2,7 @@ package com.senai.escola.Controller;
 
 import com.senai.escola.Models.Professor;
 import com.senai.escola.Service.ProfessorService;
+import jakarta.persistence.PostUpdate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,17 @@ public class ProfessorController {
     @PostMapping
     public Professor salvar(@RequestBody Professor professor){
         return professorService.salvarNovoProfessor(professor);
+    }
+
+    @PutMapping("/{id}")
+    public Professor atualizarProfessor(@PathVariable Long id, @RequestBody Professor novoProfessor){ //edita o dados do professor
+        Professor verificarProfessor = professorService.buscarProfessorId(id);
+        if (verificarProfessor == null) return null;
+        verificarProfessor.setNome(novoProfessor.getNome());
+        verificarProfessor.setEmail(novoProfessor.getEmail());
+        verificarProfessor.setTelefone(novoProfessor.getTelefone());
+
+        return professorService.salvarNovoProfessor(verificarProfessor);
     }
 
     @DeleteMapping("/{id}")

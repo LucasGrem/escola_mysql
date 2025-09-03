@@ -2,13 +2,8 @@ package com.senai.escola.Controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.senai.escola.Models.Aluno;
+import org.springframework.web.bind.annotation.*;
 
 import com.senai.escola.Models.Aluno;
 import com.senai.escola.Service.AlunoService;
@@ -30,6 +25,17 @@ public class AlunoController {
     @PostMapping
     public Aluno salvar(@RequestBody Aluno aluno){
         return alunoService.salvarNovoAluno(aluno);
+    }
+
+    @PutMapping("/{id}")
+    public Aluno atualizarAluno(@PathVariable Long id, @RequestBody Aluno novoAluno){ //edita o dados do aluno
+        Aluno verificarAluno = alunoService.buscarAlunoId(id);
+        if (verificarAluno == null) return null;
+        verificarAluno.setNome(novoAluno.getNome());
+        verificarAluno.setEmail(novoAluno.getEmail());
+        verificarAluno.setTelefone(novoAluno.getTelefone());
+
+        return alunoService.salvarNovoAluno(verificarAluno);
     }
 
     @DeleteMapping("/{id}")
