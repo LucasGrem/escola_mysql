@@ -1,4 +1,7 @@
 package com.senai.escola.Interface;
 
-public interface EscolaRepository {
+import com.senai.escola.Models.Escola;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EscolaRepository extends JpaRepository<Escola, Long> {
 }
