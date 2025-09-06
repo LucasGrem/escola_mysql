@@ -1,7 +1,10 @@
 package com.senai.escola.Interface;
 
-import com.senai.escola.Models.Aluno;
+import com.senai.escola.Models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AlunoRepository extends JpaRepository<Aluno, Long> {
+import java.util.Optional;
+
+public interface  UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByUsernameAndSenha(String username, String senha);
 }

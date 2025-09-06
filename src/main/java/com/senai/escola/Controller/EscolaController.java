@@ -20,7 +20,7 @@ public class EscolaController {
         return escolaService.buscarTodasEscolas();
     }
 
-    @GetMapping
+    @PostMapping
     public Escola salvar(@RequestBody Escola escola){
         return escolaService.salvarNovaEscola(escola);
     }
