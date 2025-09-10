@@ -16,7 +16,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody Usuario usuario){
-        Usuario user = usuarioService.autenticar(usuario.getUsername(), usuario.getSenha());
+        Usuario user = usuarioService.fazerLogin(usuario.getUsername(), usuario.getSenha());
 
         if (user != null){
             return "Login realizado com sucesso! Bem vindo, " + user.getUsername();

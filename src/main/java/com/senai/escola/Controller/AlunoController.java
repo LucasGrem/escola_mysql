@@ -9,7 +9,7 @@ import com.senai.escola.Models.Aluno;
 import com.senai.escola.Service.AlunoService;
 
 @RestController //defini que esta class vire a controladora
-@RequestMapping ("/aluno") //Faz integração com a web
+@RequestMapping ("/alunos") //Faz integração com a web
 public class AlunoController {
     private final AlunoService alunoService; //precisa de um construtor, para que a variavel seja inicializada.
 

@@ -12,7 +12,7 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    public Usuario autenticar(String username, String senha){
+    public Usuario fazerLogin(String username, String senha){
         return repository.findByUsernameAndSenha(username, senha).orElse(null);
     }
 
