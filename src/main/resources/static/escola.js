@@ -1,30 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const apiUrl = 'http://localhost:8080/alunos';
-  const tbody = document.getElementById('aluno-tbody');
-  const form = document.getElementById('aluno-form');
-  const alunoId = document.getElementById('aluno-id');
+  const apiUrl = 'http://localhost:8080/escola';
+  const tbody = document.getElementById('escola-tbody');
+  const form = document.getElementById('escola-form');
+  const alunoId = document.getElementById('escola-id');
   const nomeInput = document.getElementById('nome');
   const emailInput = document.getElementById('email');
   const telefoneInput = document.getElementById('telefone');
 
-  // Função para carregar alunos
-  function carregarAlunos() {
+  // Função para carregar escolas
+  function carregarEscolas() {
     fetch(apiUrl)
       .then(res => res.json())
       .then(data => {
         tbody.innerHTML = '';
-        data.forEach(aluno => {
+        data.forEach(escola => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td>${aluno.nome}</td>
-            <td>${aluno.email}</td>
-            <td>${aluno.telefone}</td>
+            <td>${escola.nome}</td>
+            <td>${escola.email}</td>
+            <td>${escola.telefone}</td>
             <td>
               <button class="btn btn-warning btn-sm me-2"
-                onclick="editarAluno(${aluno.id}, '${aluno.nome}', '${aluno.email}', '${aluno.telefone}')">
+                onclick="editarEscola(${escola.id}, '${escola.nome}', '${escola.email}', '${escola.telefone}')">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button class="btn btn-danger btn-sm" onclick="excluirAluno(${aluno.id})">
+              <button class="btn btn-danger btn-sm" onclick="excluirEscola(${escola.id})">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       })
       .catch(err => {
-        console.error('Erro ao buscar alunos:', err);
-        alert('Erro ao carregar alunos.');
+        console.error('Erro ao buscar escolas:', err);
+        alert('Erro ao carregar escolas.');
       });
   }
 
@@ -42,58 +42,58 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const aluno = {
+    const escola = {
       nome: nomeInput.value,
       email: emailInput.value,
       telefone: telefoneInput.value
     };
 
-    if (alunoId.value) {
+    if (escolaId.value) {
       // Atualizar
-      fetch(`${apiUrl}/${alunoId.value}`, {
+      fetch(`${apiUrl}/${escolaId.value}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
+        body: JSON.stringify(escola)
       })
       .then(() => {
-        alert('Aluno atualizado com sucesso!');
+        alert('escola atualizado com sucesso!');
         form.reset();
         alunoId.value = '';
-        carregarAlunos();
+        carregarEscolas();
       });
     } else {
       // Criar
       fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
+        body: JSON.stringify(escola)
       })
       .then(() => {
-        alert('Aluno cadastrado com sucesso!');
+        alert('Escola cadastrado com sucesso!');
         form.reset();
-        carregarAlunos();
+        carregarEscolas();
       });
     }
   });
 
   // Expor funções globais
-  window.editarAluno = (id, nome, email, telefone) => {
-    alunoId.value = id;
+  window.editarEscola = (id, nome, email, telefone) => {
+    escolaId.value = id;
     nomeInput.value = nome;
     emailInput.value = email;
     telefoneInput.value = telefone;
   };
 
-  window.excluirAluno = (id) => {
-    if (confirm('Deseja excluir este aluno?')) {
+  window.excluirEscola = (id) => {
+    if (confirm('Deseja excluir esta escola?')) {
       fetch(`${apiUrl}/${id}`, { method: 'DELETE' })
         .then(() => {
-          alert('Aluno excluído!');
-          carregarAlunos();
+          alert('Escola excluída!');
+          carregarEscolas();
         });
     }
   };
 
   // Inicializar
-  carregarAlunos();
+  carregarEscolas();
 });

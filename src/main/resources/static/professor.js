@@ -22,10 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <td>
                 <button class="btn btn-warning btn-sm me-2"
                   onclick="editarProfessor(${professor.id}, '${professor.nome}', '${professor.email}', '${professor.telefone}')">
-                  Editar
+                  <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 <button class="btn btn-danger btn-sm" onclick="excluirProfessor(${professor.id})">
-                  Excluir
+                  <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
             `;
