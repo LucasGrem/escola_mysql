@@ -3,6 +3,7 @@ package com.senai.escola.Controller;
 import java.util.List;
 
 import com.senai.escola.Models.Aluno;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.senai.escola.Models.Aluno;
@@ -17,16 +18,22 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+    // Admin e Professor podem ver todos os alunos
+    @PreAuthorize("hasAnyRole('admin','professor')")
     @GetMapping
     public List<Aluno> buscarAlunos(){
         return alunoService.buscarTodosAlunos();
     }
 
+    // Apenas ADMIN pode criar alunos
+    @PreAuthorize("hasRole('admin')")
     @PostMapping
     public Aluno salvar(@RequestBody Aluno aluno){
         return alunoService.salvarNovoAluno(aluno);
     }
 
+    // ADMIN pode atualizar
+    @PreAuthorize("hasRole('admin')")
     @PutMapping("/{id}")
     public Aluno atualizarAluno(@PathVariable Long id, @RequestBody Aluno novoAluno){ //edita o dados do aluno
         Aluno verificarAluno = alunoService.buscarAlunoId(id);
@@ -38,11 +45,15 @@ public class AlunoController {
         return alunoService.salvarNovoAluno(verificarAluno);
     }
 
+    // Apenas ADMIN pode deletar
+    @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/{id}")
     public void excluirAluno(@PathVariable Long id){ //"void" significa q é sem retorno
         alunoService.deletarAluno(id);
     }
 
+    // ADMIN e PROFESSOR podem consultar
+    @PreAuthorize("hasAnyRole('admin','professor')")
     @GetMapping("/{id}") //"("/{id}")" é para buscar algo especifico
     public Aluno buscarAlunoPorId(@PathVariable Long id){
         return alunoService.buscarAlunoId(id);
