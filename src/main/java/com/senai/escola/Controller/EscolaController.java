@@ -17,47 +17,47 @@ public class EscolaController {
     }
 
     // Apenas ADMIN pode ver lista de escolas
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Escola> buscarEscolas() {
         return escolaService.buscarTodasEscolas();
     }
 
     // Apenas ADMIN pode criar
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Escola salvar(@RequestBody Escola escola){
         return escolaService.salvarNovaEscola(escola);
     }
 
     // Apenas ADMIN pode atualizar
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/id") //"("/{id}")" é para buscar algo especifico, nesse caso id
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")  //"("/{id}")" é para buscar algo especifico, nesse caso id
     public Escola atualizarEscola(@PathVariable Long id, @RequestBody Escola novaEscola){
         Escola verificarEscola = escolaService.buscarEscolaId(id);
         if (verificarEscola == null) return null;
 
-        verificarEscola.setEmail(verificarEscola.getEmail());
         verificarEscola.setNome(novaEscola.getNome());
-        verificarEscola.setTelefone(verificarEscola.getTelefone());
-        //verificarEscola.setCnpj(verificarEscola.getCnpj());
-        verificarEscola.setComponentes(verificarEscola.getComponentes());
-        verificarEscola.setTurmas(verificarEscola.getTurmas());
-        verificarEscola.setStatusAluno(verificarEscola.getStatusAluno());
+        verificarEscola.setEmail(novaEscola.getEmail());
+        verificarEscola.setTelefone(novaEscola.getTelefone());
+        verificarEscola.setCnpj(novaEscola.getCnpj());
+        verificarEscola.setComponentes(novaEscola.getComponentes());
+        verificarEscola.setTurmas(novaEscola.getTurmas());
+        verificarEscola.setStatusAluno(novaEscola.getStatusAluno());
 
         return escolaService.salvarNovaEscola(verificarEscola);
     }
 
     // Apenas ADMIN pode deletar
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/id") //"("/{id}")" é para buscar algo especifico, nesse caso id
+//    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}") //"("/{id}")" é para buscar algo especifico, nesse caso id
     public void excluirEscola(@PathVariable Long id){ //"void" significa q é sem retorno
         escolaService.deletarEscola(id);
     }
 
     // Apenas ADMIN pode consultar
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/id")
+    // @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
     public Escola buscarEscolaPorId(@PathVariable Long id){ //"("/{id}")" é para buscar algo especifico, nesse caso id
         return escolaService.buscarEscolaId(id);
     }
